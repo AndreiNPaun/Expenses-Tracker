@@ -26,9 +26,14 @@ const App = () => {
     },
   ];
 
+  // Getting the data from ExpenseForm up to App is called Lifting the State Up
+  const addExpenseHandler = (expense) => {
+    console.log("In App", expense);
+  };
+
   return (
     <div>
-      <NewExpense />
+      <NewExpense onAddExpense={addExpenseHandler} />
       <Expenses items={expenses} />
     </div>
   );
