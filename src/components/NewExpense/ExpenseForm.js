@@ -48,7 +48,7 @@ const ExpenseForm = (props) => {
     const expenseData = {
       title: enteredTitle,
       amount: enteredAmount,
-      date: new Date(enteredDate), // date is a string and e parse it to a date format using new date
+      date: new Date(enteredDate), // date is a string and we parse it to a date format using new date
     };
 
     // executes the function from NewExpense making expenseData available in the parent component (also known as communicate-up or buttom-up)

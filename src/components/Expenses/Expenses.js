@@ -1,34 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 
-import ExpenseItem from "./ExpenseItem";
 import Card from "../UI/Card";
+import ExpensesFilter from "./ExpensesFilter";
 import "./Expenses.css";
+import ExpensesList from "./ExpensesList";
 
 const Expenses = (props) => {
+  const [filteredYear, setFilteredYear] = useState("2020"); // we initialize this state with one of the option values from the filter
+
+  const fitlterChangeHandler = (selectedYear) => {
+    setFilteredYear(selectedYear);
+  };
+
+  const filteredExpenses = props.items.filter((expense) => {
+    return expense.date.getFullYear().toString() === filteredYear;
+  });
+
   return (
-    <Card className='expenses'>
-      <ExpenseItem
-        title={props.items[0].title}
-        amount={props.items[0].amount}
-        date={props.items[0].date}
-      />
-      <ExpenseItem
-        title={props.items[1].title}
-        amount={props.items[1].amount}
-        date={props.items[1].date}
-      />
-      <ExpenseItem
-        title={props.items[2].title}
-        amount={props.items[2].amount}
-        date={props.items[2].date}
-      />
-      <ExpenseItem
-        title={props.items[3].title}
-        amount={props.items[3].amount}
-        date={props.items[3].date}
-      />
-    </Card>
+    <div>
+      <Card className='expenses'>
+        <ExpensesFilter
+          selected={filteredYear}
+          onChangeFilter={fitlterChangeHandler}
+        />
+        <ExpensesList items={filteredExpenses} />
+      </Card>
+    </div>
   );
 };
 
 export default Expenses;
+
+/*
+  Another way of doing it but using more JSX code
+
+  Conditional statement which checks if the filtered array is empty will output a message
+  JS will return the part after the and operator after the check if the first condition is met allowing the split of the ternary expression into two
+        
+  {filteredExpenses.length === 0 && <p>No expenses found.</p>}
+  {filteredExpenses.length > 0 &&
+    filteredExpenses.map((expense) => (
+      <ExpenseItem
+        key={expense.id} // prop needed by react to identify individual items and to avoid performance issues; requires unique value per list item to work (id in this case)
+        title={expense.title}
+        amount={expense.amount}
+        date={expense.date}
+      />
+    ))}
+*/
